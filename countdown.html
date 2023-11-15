@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Countdown Timer</title>
+    <style>
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        color: red;
+        font-size: 17vw;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #countdown {
+        margin-bottom: 80px;
+      }
+
+      .button {
+        width: 10vw;
+        height: 10vw;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        font-size: 2vw;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+      }
+
+      .button:hover {
+        background-color: red;
+      }
+	  #continue {
+  display: none;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="countdown"></div>
+    <div>
+      <button id="pause" class="button">Pause</button>
+      <button id="continue" class="button">Continue</button>
+      <button id="restart" class="button">Restart</button>
+    </div>
+
+    <script>
+      var countDownDate = new Date().getTime() + 1 * 10 * 1000; // Set the time 15 minutes from now
+      var timerInterval;
+      var paused = false;
+      var remainingTime = 0;
+
+      function startTimer() {
+        timerInterval = setInterval(function () {
+          var now = new Date().getTime();
+          var distance = countDownDate - now - remainingTime;
+
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          document.getElementById("countdown").innerHTML =
+            minutes + "m " + seconds + "s ";
+
+          if (distance < 0) {
+            clearInterval(timerInterval);
+            document.getElementById("countdown").innerHTML = "Time's Up"<br> "Change Tables";
+			 var audio = new Audio('‪5to1.mp3');
+      audio.play();
+    } else if (distance == 5000) {
+      document.body.style.background =
+        seconds % 2 === 0 ? 'yellow' : 'black';
+      var audio = new Audio('‪5to1.mp3');
+	  audio.muted = false;
+      audio.play();
+	  
+	  
+    }
+          
+        }, 1000);
+      }
+
+		function pauseTimer() {
+		  clearInterval(timerInterval);
+		  remainingTime = countDownDate - new Date().getTime();
+		  paused = true;
+		  // show the continue button
+		  document.getElementById("continue").style.display = "inline-block";
+		  // hide the pause button
+		  document.getElementById("pause").style.display = "none";
+		}
+
+		function continueTimer() {
+		  countDownDate = new Date().getTime() + remainingTime;
+		  startTimer();
+		  paused = false;
+		  remainingTime = 0;
+		  // hide the continue button
+		  document.getElementById("continue").style.display = "none";
+		  // show the pause button
+		  document.getElementById("pause").style.display = "inline-block";
+		}
+
+
+
+      function restartTimer() {
+        clearInterval(timerInterval);
+        countDownDate = new Date().getTime() + 15 * 60 * 1000;
+        startTimer();
+        paused = false;
+        remainingTime = 0;
+      }
+
+      startTimer();
+
+      document.getElementById("pause").addEventListener("click", pauseTimer);
+
+      document.getElementById("continue").addEventListener("click", continueTimer);
+
+      document.getElementById("restart").addEventListener("click", restartTimer);
+    </script>
+	<audio src="5to1.mp3" controls></audio>
+
+
+  </body>
+</html>
